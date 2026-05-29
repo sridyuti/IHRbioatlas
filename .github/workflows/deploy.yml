@@ -1,0 +1,55 @@
+name: Deploy IHR BioAtlas to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'ihr_bioatlas_*.html'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find latest BioAtlas HTML
+        id: find_html
+        run: |
+          # Find the latest versioned HTML file
+          LATEST=$(ls ihr_bioatlas_v*.html 2>/dev/null | sort -V | tail -1)
+          echo "latest_html=$LATEST" >> $GITHUB_OUTPUT
+          echo "Deploying: $LATEST"
+
+      - name: Prepare Pages content
+        run: |
+          mkdir -p _site
+          LATEST="${{ steps.find_html.outputs.latest_html }}"
+          cp "$LATEST" _site/index.html
+          echo "Copied $LATEST → _site/index.html"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -223,7 +223,7 @@ Zoological Survey of India, M-Block, New Alipore, Kolkata – 700053, West Benga
 
 ## 🏛 Funding
 
-This work was supported by the **National Mission for Himalayan Studies (NMHS)**, Ministry of Environment, Forest and Climate Change, Government of India — Project No. **2023-24/LG11/182**.
+This work was supported by the **National Mission for Himalayan Studies (NMHS)**, Ministry of Environment, Forest and Climate Change, Government of India — Project No. **NMHS2024-25/SC-XIII/LG/SL-02**.
 
 ---
 
